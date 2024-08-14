@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// datasource says you are connecting with the postgresql and i will provide you
+// with utlities to interact with models and DATABASE_URL
+// that is dobe by prisma-client
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// models are defining schema for aplication
+model Video {
+  // each datatype | property you want to store in database, addOn here
+  // id makes it unique identifier
+  id          String  @id @default(cuid())
+  title       String
+  description String?
+
+  // using publicId, given to us by cloudinary once we upload a video,
+  //  we get a response back and out of which we extract publicId and save info here 
+
+  publicId     String
+  originalSize String
+
+  // gicen to us by cloudinary | managed by it
+  compressedSize String
+  duration       String
+
+  // adding default i.e; now
+  createdAt DateTime @default(now())
+
+  updateAt DateTime @updatedAt
+}
