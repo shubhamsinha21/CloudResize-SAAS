@@ -33,7 +33,7 @@ model Video {
 
   // gicen to us by cloudinary | managed by it
   compressedSize String
-  duration       String
+  duration       Float
 
   // adding default i.e; now
   createdAt DateTime @default(now())
