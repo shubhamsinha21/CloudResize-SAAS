@@ -98,6 +98,7 @@ export default function SocialShare() {
   const handleDownload = () => {
     // no imageRef holding currently
     if (!imageRef.current) return;
+
     fetch(imageRef.current.src)
       .then((response) => response.blob())
       .then((blob) => {
@@ -152,7 +153,7 @@ export default function SocialShare() {
 
           {uploadedImage && (
             <div className="mt-6">
-              <h2 className="card title mb-4">Select Social Media Format</h2>
+              <h2 className="card-title mb-4">Select Social Media Format</h2>
               <div className="form-control">
                 <select
                   className="select select-bordered w-full"

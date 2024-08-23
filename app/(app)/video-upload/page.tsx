@@ -40,7 +40,7 @@ export default function VideoUpload() {
 
     // gathered data | now uploading file
     try {
-      await axios.post("/api/video-upload", formData);
+      const response = await axios.post("/api/video-upload", formData);
       // todo: check for 200 response
     } catch (error) {
       console.log(error);
