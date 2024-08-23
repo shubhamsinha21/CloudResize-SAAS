@@ -119,9 +119,9 @@ export default function SocialShare() {
 
         // cleanup
         document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
+        // window.URL.revokeObjectURL(url);
 
-        document.body.removeChild(link);
+        // document.body.removeChild(link);
       });
   };
 
