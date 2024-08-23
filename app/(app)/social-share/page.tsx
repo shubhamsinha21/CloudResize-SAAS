@@ -34,94 +34,96 @@ const socialFormats = {
 // typesafety
 type socialFormat = keyof typeof socialFormats;
 
-// images uploaded or not
-const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-
-// selected format of frame
-const [selectedFormat, setSelectedFormat] = useState<socialFormat>(
-  "Instagram Square (1:1)"
-);
-
-// upload state
-const [isUploading, setIsUploading] = useState(false);
-
-// transformed/ action or not
-const [isTransforming, setIsTransforming] = useState(false);
-
-// image references
-const imageRef = useRef<HTMLImageElement>(null);
-
-// effect to execute the if condition based on certain change
-useEffect(() => {
-  if (uploadedImage) {
-    setIsTransforming(true);
-  }
-}, [selectedFormat, uploadedImage]);
-
-// function for file upload
-const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-  const file = event.target.files?.[0];
-  if (!file) return;
-  setIsUploading(true);
-
-  // accessing form data
-  const formData = new FormData();
-  // taking file from input and appending it
-  formData.append("file", file);
-
-  try {
-    const response = await fetch("/api/image-upload", {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!response.ok) throw new Error("Failed to upload image");
-
-    const data = await response.json();
-    setUploadedImage(data.publicId);
-
-    // err
-  } catch (error) {
-    console.log(error);
-    alert("Failed to upload image");
-
-    // finally
-  } finally {
-    setIsUploading(false);
-  }
-};
-
-// function to handle download
-const handleDownload = () => {
-  // no imageRef holding currently
-  if (!imageRef.current) return;
-  fetch(imageRef.current.src)
-    .then((response) => response.blob())
-    .then((blob) => {
-      // done for web scrapping using js
-      // blob - is just a binary object
-      //  creating url from blob
-      // create object url
-      const url = window.URL.createObjectURL(blob);
-      // now we want to create a link to control it
-      const link = document.createElement("a");
-      link.href = url;
-      // link.download = "image.png";
-      link.download = `${selectedFormat
-        .replace(/\s+/g, "_")
-        .toLowerCase()}.png`;
-      document.body.appendChild(link);
-      link.click();
-
-      // cleanup
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-
-      document.body.removeChild(link);
-    });
-};
-
 export default function SocialShare() {
+  // images uploaded or not
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+
+  // selected format of frame
+  const [selectedFormat, setSelectedFormat] = useState<socialFormat>(
+    "Instagram Square (1:1)"
+  );
+
+  // upload state
+  const [isUploading, setIsUploading] = useState(false);
+
+  // transformed/ action or not
+  const [isTransforming, setIsTransforming] = useState(false);
+
+  // image references
+  const imageRef = useRef<HTMLImageElement>(null);
+
+  // effect to execute the if condition based on certain change
+  useEffect(() => {
+    if (uploadedImage) {
+      setIsTransforming(true);
+    }
+  }, [selectedFormat, uploadedImage]);
+
+  // function for file upload
+  const handleFileUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setIsUploading(true);
+
+    // accessing form data
+    const formData = new FormData();
+    // taking file from input and appending it
+    formData.append("file", file);
+
+    try {
+      const response = await fetch("/api/image-upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error("Failed to upload image");
+
+      const data = await response.json();
+      setUploadedImage(data.publicId);
+
+      // err
+    } catch (error) {
+      console.log(error);
+      alert("Failed to upload image");
+
+      // finally
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  // function to handle download
+  const handleDownload = () => {
+    // no imageRef holding currently
+    if (!imageRef.current) return;
+    fetch(imageRef.current.src)
+      .then((response) => response.blob())
+      .then((blob) => {
+        // done for web scrapping using js
+        // blob - is just a binary object
+        //  creating url from blob
+        // create object url
+        const url = window.URL.createObjectURL(blob);
+        // now we want to create a link to control it
+        const link = document.createElement("a");
+        link.href = url;
+        // link.download = "image.png";
+        link.download = `${selectedFormat
+          .replace(/\s+/g, "_")
+          .toLowerCase()}.png`;
+        document.body.appendChild(link);
+        link.click();
+
+        // cleanup
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+
+        document.body.removeChild(link);
+      });
+  };
+
   return (
     <div className="container mx-auto p-4 max-w-4xl">
       <h1 className="text-3xl font-bold mb-6 text-center">
