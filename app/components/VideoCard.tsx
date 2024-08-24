@@ -1,19 +1,25 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { getCldImageUrl, getCldVideoUrl } from "next-cloudinary";
-import { Download, Clock, FileDown, FileUp } from "lucide-react";
+import { Download, Clock, FileDown, FileUp, Trash2 } from "lucide-react";
 import dayjs from "dayjs";
-import realtiveTime from "dayjs/plugin/relativeTime";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { filesize } from "filesize";
 import { Video } from "@/types";
+import axios from "axios";
 
-dayjs.extend(realtiveTime);
+dayjs.extend(relativeTime);
 
 interface VideoCardProps {
   video: Video;
   onDownload: (url: string, title: string) => void;
+  onDelete: (videoId: string) => void;
 }
 
-const VideoCard: React.FC<VideoCardProps> = ({ video, onDownload }) => {
+const VideoCard: React.FC<VideoCardProps> = ({
+  video,
+  onDownload,
+  onDelete,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   const [previewError, setPreviewError] = useState(false);
 
@@ -60,6 +66,18 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onDownload }) => {
   const compressionPercentage = Math.round(
     (1 - Number(video.compressedSize) / Number(video.originalSize)) * 100
   );
+
+  const handleDelete = async () => {
+    if (window.confirm(`Are you sure you want to delete "${video.title}"?`)) {
+      try {
+        await axios.delete(`/api/video-delete?id=${video.id}`); // Call the delete endpoint
+        onDelete(video.id); // Trigger the onDelete prop to update the UI
+      } catch (error) {
+        console.error("Error deleting video:", error);
+        alert("Failed to delete video. Please try again.");
+      }
+    }
+  };
 
   useEffect(() => {
     setPreviewError(false);
@@ -130,16 +148,26 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onDownload }) => {
         <div className="flex justify-between items-center mt-4">
           <div className="text-sm font-semibold border border-white/10 px-2 py-1">
             Compression:{" "}
-            <span className="text-white">{compressionPercentage}%</span>
+            <span className="text-white">
+              {Math.abs(compressionPercentage)}%
+            </span>
           </div>
-          <button
-            className="btn btn-success  btn-sm rounded-lg"
-            onClick={() =>
-              onDownload(getFullVideoUrl(video.publicId), video.title)
-            }
-          >
-            <Download size={16} />
-          </button>
+          <div className="flex space-x-2">
+            <button
+              className="btn btn-success btn-sm rounded-lg"
+              onClick={() =>
+                onDownload(getFullVideoUrl(video.publicId), video.title)
+              }
+            >
+              <Download size={16} />
+            </button>
+            <button
+              className="btn btn-error btn-sm rounded-lg"
+              onClick={handleDelete}
+            >
+              <Trash2 size={16} />
+            </button>
+          </div>
         </div>
       </div>
     </div>

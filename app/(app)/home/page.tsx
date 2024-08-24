@@ -15,7 +15,7 @@ function Home() {
       if (Array.isArray(response.data)) {
         setVideos(response.data);
       } else {
-        throw new Error(" Unexpected response format");
+        throw new Error("Unexpected response format");
       }
     } catch (error) {
       console.log(error);
@@ -34,9 +34,19 @@ function Home() {
     link.href = url;
     link.setAttribute("download", `${title}.mp4`);
     link.setAttribute("target", "_blank");
-    // document.body.appendChild(link);
     link.click();
-    // document.body.removeChild(link);
+  }, []);
+
+  const handleDelete = useCallback(async (videoId: string) => {
+    try {
+      await axios.delete(`/api/video-delete?id=${videoId}`);
+      setVideos((prevVideos) =>
+        prevVideos.filter((video) => video.id !== videoId)
+      );
+    } catch (error) {
+      console.error("Error deleting video:", error);
+      alert("Failed to delete video. Please try again.");
+    }
   }, []);
 
   if (loading) {
@@ -57,6 +67,7 @@ function Home() {
               key={video.id}
               video={video}
               onDownload={handleDownload}
+              onDelete={handleDelete} // Pass the onDelete function here
             />
           ))}
         </div>

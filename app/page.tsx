@@ -19,7 +19,7 @@ const HomePage = () => {
           <p>- Store your video here</p>
           <Link href="/home">
             <button className="border p-3 rounded-lg w-fit hover:bg-white hover:text-black">
-              Begin here ➡️
+              Lets start ➡️
             </button>
           </Link>
         </div>
