@@ -83,7 +83,7 @@ function VideoUpload() {
         </div>
         <button
           type="submit"
-          className="btn btn-primary"
+          className="btn btn-success rounded-lg"
           disabled={isUploading}
         >
           {isUploading ? "Uploading..." : "Upload Video"}

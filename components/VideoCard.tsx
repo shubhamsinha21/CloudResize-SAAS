@@ -71,7 +71,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onDownload }) => {
 
   return (
     <div
-      className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300"
+      className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 border border-white/20"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -108,19 +108,19 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onDownload }) => {
         <p className="text-sm text-base-content opacity-70 mb-4">
           {video.description}
         </p>
-        <p className="text-sm text-base-content opacity-70 mb-4">
+        <p className="text-sm opacity-80 mb-4 text-white border-b border-white/30 w-fit">
           Uploaded {dayjs(video.createdAt).fromNow()}
         </p>
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div className="flex items-center">
-            <FileUp size={18} className="mr-2 text-primary" />
+            <FileUp size={18} className="mr-2 text-white" />
             <div>
               <div className="font-semibold">Original</div>
               <div>{formatSize(Number(video.originalSize))}</div>
             </div>
           </div>
           <div className="flex items-center">
-            <FileDown size={18} className="mr-2 text-secondary" />
+            <FileDown size={18} className="mr-2 text-white" />
             <div>
               <div className="font-semibold">Compressed</div>
               <div>{formatSize(Number(video.compressedSize))}</div>
@@ -128,12 +128,12 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onDownload }) => {
           </div>
         </div>
         <div className="flex justify-between items-center mt-4">
-          <div className="text-sm font-semibold">
+          <div className="text-sm font-semibold border border-white/10 px-2 py-1">
             Compression:{" "}
-            <span className="text-accent">{compressionPercentage}%</span>
+            <span className="text-white">{compressionPercentage}%</span>
           </div>
           <button
-            className="btn bg-red-600 btn-sm"
+            className="btn btn-success  btn-sm rounded-lg"
             onClick={() =>
               onDownload(getFullVideoUrl(video.publicId), video.title)
             }

@@ -39,7 +39,7 @@ export default function AppLayout({
   };
 
   return (
-    <div className="drawer lg:drawer-open">
+    <div className="drawer lg:drawer-open bg-black">
       <input
         id="sidebar-drawer"
         type="checkbox"
@@ -49,7 +49,7 @@ export default function AppLayout({
       />
       <div className="drawer-content flex flex-col">
         {/* Navbar */}
-        <header className="w-full bg-base-200">
+        <header className="w-full border-b border-white/30">
           <div className="navbar max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex-none lg:hidden">
               <label
@@ -61,8 +61,8 @@ export default function AppLayout({
             </div>
             <div className="flex-1">
               <Link href="/" onClick={handleLogoClick}>
-                <div className="btn btn-ghost normal-case text-2xl font-bold tracking-tight cursor-pointer">
-                  Cloudinary Showcase
+                <div className=" normal-case max-sm:text-sm leading-4 text-2xl font-bold tracking-tight cursor-pointer max-sm:hidden">
+                  CloudResize 🤖
                 </div>
               </Link>
             </div>
@@ -70,7 +70,7 @@ export default function AppLayout({
               {user && (
                 <>
                   <div className="avatar">
-                    <div className="w-8 h-8 rounded-full">
+                    <div className="max-sm:w-6 max-sm:h-6 w-8 h-8 rounded-full">
                       <img
                         src={user.imageUrl}
                         alt={
@@ -79,14 +79,14 @@ export default function AppLayout({
                       />
                     </div>
                   </div>
-                  <span className="text-sm truncate max-w-xs lg:max-w-md">
+                  <span className=" max-sm:text-xs sm:text-md truncate max-w-xs lg:max-w-md">
                     {user.username || user.emailAddresses[0].emailAddress}
                   </span>
                   <button
                     onClick={handleSignOut}
-                    className="btn btn-ghost btn-circle"
+                    className="btn hover:bg-white hover:text-black btn-circle"
                   >
-                    <LogOutIcon className="h-6 w-6" />
+                    <LogOutIcon className="sm:h-6 sm:w-6 w-4 h-4" />
                   </button>
                 </>
               )}
@@ -102,9 +102,9 @@ export default function AppLayout({
       </div>
       <div className="drawer-side">
         <label htmlFor="sidebar-drawer" className="drawer-overlay"></label>
-        <aside className="bg-base-200 w-64 h-full flex flex-col">
+        <aside className="bg-black border-r border-white/20 w-64 h-full flex flex-col">
           <div className="flex items-center justify-center py-4">
-            <ImageIcon className="w-10 h-10 text-primary" />
+            <ImageIcon className="w-10 h-10 text-white " />
           </div>
           <ul className="menu p-4 w-full text-base-content flex-grow">
             {sidebarItems.map((item) => (
@@ -114,7 +114,7 @@ export default function AppLayout({
                   className={`flex items-center space-x-4 px-4 py-2 rounded-lg ${
                     pathname === item.href
                       ? "bg-primary text-white"
-                      : "hover:bg-base-300"
+                      : "hover:bg-white hover:text-black hover:font-semibold"
                   }`}
                   onClick={() => setSidebarOpen(false)}
                 >
@@ -128,7 +128,7 @@ export default function AppLayout({
             <div className="p-4">
               <button
                 onClick={handleSignOut}
-                className="btn btn-outline btn-error w-full"
+                className="btn btn-outline rounded-lg w-full"
               >
                 <LogOutIcon className="mr-2 h-5 w-5" />
                 Sign Out

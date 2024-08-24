@@ -144,7 +144,10 @@ export default function SocialShare() {
               </div>
 
               <div className="card-actions justify-end mt-6">
-                <button className="btn btn-primary" onClick={handleDownload}>
+                <button
+                  className="btn btn-success rounded-lg"
+                  onClick={handleDownload}
+                >
                   Download for {selectedFormat}
                 </button>
               </div>
