@@ -30,6 +30,7 @@ model Video {
 
   publicId     String
   originalSize String
+  url          String
 
   // gicen to us by cloudinary | managed by it
   compressedSize String
