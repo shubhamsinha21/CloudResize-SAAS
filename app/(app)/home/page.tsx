@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import VideoCard from "@/components/VideoCard";
+import VideoCard from "@/app/components/VideoCard";
 import { Video } from "@/types";
 
 function Home() {
