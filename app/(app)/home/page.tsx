@@ -39,10 +39,15 @@ function Home() {
 
   const handleDelete = useCallback(async (videoId: string) => {
     try {
-      await axios.delete(`/api/video-delete?id=${videoId}`);
-      setVideos((prevVideos) =>
-        prevVideos.filter((video) => video.id !== videoId)
-      );
+      const response = await axios.delete(`/api/video-delete?id=${videoId}`);
+      if (response.status === 200) {
+        setVideos((prevVideos) =>
+          prevVideos.filter((video) => video.id !== videoId)
+        );
+      } else {
+        console.error("Failed to delete video:", response.data.error);
+        alert("Failed to delete video. Please try again.");
+      }
     } catch (error) {
       console.error("Error deleting video:", error);
       alert("Failed to delete video. Please try again.");
